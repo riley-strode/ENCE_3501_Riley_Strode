@@ -1,0 +1,65 @@
+* Output Register testbench (muddLib07 flopr_c_1x x4)
+* Runs in LTspice (open this file directly) or ngspice.
+* Keep cmosedu_models.txt and mudd_cells.lib in the same folder.
+.include cmosedu_models.txt
+.include mudd_cells.lib
+VDD vdd 0 DC 5
+
+VCLK MainClock 0 PULSE(0 5 10n 0.2n 0.2n 19.8n 40n)
+VENO EnableOut 0 PWL(0n 0 5n 0 5.2n 5 195n 5 195.2n 0 275n 0 275.2n 5)
+VRST MainReset 0 PWL(0n 0 85n 0 85.2n 5 355n 5 355.2n 0 395n 0 395.2n 5)
+VIB0 IB0 0 PWL(0n 0 55n 0 55.2n 5 95n 5 95.2n 0 135n 0 135.2n 5 255n 5 255.2n 0 335n 0 335.2n 5 375n 5 375.2n 0 415n 0 415.2n 5)
+VIB1 IB1 0 PWL(0n 0 15n 0 15.2n 5 55n 5 55.2n 0 135n 0 135.2n 5 215n 5 215.2n 0 255n 0 255.2n 5 295n 5 295.2n 0 335n 0 335.2n 5)
+VIB2 IB2 0 PWL(0n 0 55n 0 55.2n 5 135n 5 135.2n 0 175n 0 175.2n 5 215n 5 215.2n 0 255n 0 255.2n 5 295n 5 295.2n 0 335n 0 335.2n 5 415n 5 415.2n 0)
+VIB3 IB3 0 PWL(0n 0 15n 0 15.2n 5 55n 5 55.2n 0 95n 0 95.2n 5 135n 5 135.2n 0 175n 0 175.2n 5 255n 5 255.2n 0 295n 0 295.2n 5 335n 5 335.2n 0 375n 0 375.2n 5)
+XDUT MainReset MainClock EnableOut IB0 IB1 IB2 IB3 rOut0 rOut1 rOut2 rOut3 vdd 0 OutputRegister
+CL0 rOut0 0 50f
+CL1 rOut1 0 50f
+CL2 rOut2 0 50f
+CL3 rOut3 0 50f
+.meas TRAN out_k0_b0 FIND V(rOut0) AT=38n
+.meas TRAN out_k0_b1 FIND V(rOut1) AT=38n
+.meas TRAN out_k0_b2 FIND V(rOut2) AT=38n
+.meas TRAN out_k0_b3 FIND V(rOut3) AT=38n
+.meas TRAN out_k1_b0 FIND V(rOut0) AT=78n
+.meas TRAN out_k1_b1 FIND V(rOut1) AT=78n
+.meas TRAN out_k1_b2 FIND V(rOut2) AT=78n
+.meas TRAN out_k1_b3 FIND V(rOut3) AT=78n
+.meas TRAN out_k2_b0 FIND V(rOut0) AT=118n
+.meas TRAN out_k2_b1 FIND V(rOut1) AT=118n
+.meas TRAN out_k2_b2 FIND V(rOut2) AT=118n
+.meas TRAN out_k2_b3 FIND V(rOut3) AT=118n
+.meas TRAN out_k3_b0 FIND V(rOut0) AT=158n
+.meas TRAN out_k3_b1 FIND V(rOut1) AT=158n
+.meas TRAN out_k3_b2 FIND V(rOut2) AT=158n
+.meas TRAN out_k3_b3 FIND V(rOut3) AT=158n
+.meas TRAN out_k4_b0 FIND V(rOut0) AT=198n
+.meas TRAN out_k4_b1 FIND V(rOut1) AT=198n
+.meas TRAN out_k4_b2 FIND V(rOut2) AT=198n
+.meas TRAN out_k4_b3 FIND V(rOut3) AT=198n
+.meas TRAN out_k5_b0 FIND V(rOut0) AT=238n
+.meas TRAN out_k5_b1 FIND V(rOut1) AT=238n
+.meas TRAN out_k5_b2 FIND V(rOut2) AT=238n
+.meas TRAN out_k5_b3 FIND V(rOut3) AT=238n
+.meas TRAN out_k6_b0 FIND V(rOut0) AT=278n
+.meas TRAN out_k6_b1 FIND V(rOut1) AT=278n
+.meas TRAN out_k6_b2 FIND V(rOut2) AT=278n
+.meas TRAN out_k6_b3 FIND V(rOut3) AT=278n
+.meas TRAN out_k7_b0 FIND V(rOut0) AT=318n
+.meas TRAN out_k7_b1 FIND V(rOut1) AT=318n
+.meas TRAN out_k7_b2 FIND V(rOut2) AT=318n
+.meas TRAN out_k7_b3 FIND V(rOut3) AT=318n
+.meas TRAN out_k8_b0 FIND V(rOut0) AT=358n
+.meas TRAN out_k8_b1 FIND V(rOut1) AT=358n
+.meas TRAN out_k8_b2 FIND V(rOut2) AT=358n
+.meas TRAN out_k8_b3 FIND V(rOut3) AT=358n
+.meas TRAN out_k9_b0 FIND V(rOut0) AT=398n
+.meas TRAN out_k9_b1 FIND V(rOut1) AT=398n
+.meas TRAN out_k9_b2 FIND V(rOut2) AT=398n
+.meas TRAN out_k9_b3 FIND V(rOut3) AT=398n
+.meas TRAN out_k10_b0 FIND V(rOut0) AT=438n
+.meas TRAN out_k10_b1 FIND V(rOut1) AT=438n
+.meas TRAN out_k10_b2 FIND V(rOut2) AT=438n
+.meas TRAN out_k10_b3 FIND V(rOut3) AT=438n
+.tran 0.01n 460n
+.end

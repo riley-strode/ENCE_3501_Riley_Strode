@@ -1,0 +1,57 @@
+* Input Register testbench (muddLib07 buftri_c_1x x4)
+* Runs in LTspice (open this file directly) or ngspice.
+* Keep cmosedu_models.txt and mudd_cells.lib in the same folder.
+.include cmosedu_models.txt
+.include mudd_cells.lib
+VDD vdd 0 DC 5
+
+VEN EnableIn 0 PWL(0n 0 1n 0 1.2n 5 41n 5 41.2n 0 81n 0 81.2n 5 121n 5 121.2n 0 141n 0 141.2n 5)
+VD0 DataIn0 0 PWL(0n 0 41n 0 41.2n 5 61n 5 61.2n 0 81n 0 81.2n 5 141n 5 141.2n 0)
+VD1 DataIn1 0 PWL(0n 0 21n 0 21.2n 5 41n 5 41.2n 0 81n 0 81.2n 5 121n 5 121.2n 0 141n 0 141.2n 5)
+VD2 DataIn2 0 PWL(0n 0 41n 0 41.2n 5 81n 5 81.2n 0 101n 0 101.2n 5 121n 5 121.2n 0 141n 0 141.2n 5)
+VD3 DataIn3 0 PWL(0n 0 21n 0 21.2n 5 41n 5 41.2n 0 61n 0 61.2n 5 81n 5 81.2n 0 101n 0 101.2n 5 141n 5 141.2n 0)
+XDUT EnableIn DataIn0 DataIn1 DataIn2 DataIn3 B0 B1 B2 B3 vdd 0 InputRegister
+* Bus load + 20k 'viewing' resistors to 2.5 V so Hi-Z shows as 2.5 V
+VMID mid 0 DC 2.5
+CL0 B0 0 50f
+RZ0 B0 mid 20k
+CL1 B1 0 50f
+RZ1 B1 mid 20k
+CL2 B2 0 50f
+RZ2 B2 mid 20k
+CL3 B3 0 50f
+RZ3 B3 mid 20k
+.meas TRAN in_k0_b0 FIND V(B0) AT=15n
+.meas TRAN in_k0_b1 FIND V(B1) AT=15n
+.meas TRAN in_k0_b2 FIND V(B2) AT=15n
+.meas TRAN in_k0_b3 FIND V(B3) AT=15n
+.meas TRAN in_k1_b0 FIND V(B0) AT=35n
+.meas TRAN in_k1_b1 FIND V(B1) AT=35n
+.meas TRAN in_k1_b2 FIND V(B2) AT=35n
+.meas TRAN in_k1_b3 FIND V(B3) AT=35n
+.meas TRAN in_k2_b0 FIND V(B0) AT=55n
+.meas TRAN in_k2_b1 FIND V(B1) AT=55n
+.meas TRAN in_k2_b2 FIND V(B2) AT=55n
+.meas TRAN in_k2_b3 FIND V(B3) AT=55n
+.meas TRAN in_k3_b0 FIND V(B0) AT=75n
+.meas TRAN in_k3_b1 FIND V(B1) AT=75n
+.meas TRAN in_k3_b2 FIND V(B2) AT=75n
+.meas TRAN in_k3_b3 FIND V(B3) AT=75n
+.meas TRAN in_k4_b0 FIND V(B0) AT=95n
+.meas TRAN in_k4_b1 FIND V(B1) AT=95n
+.meas TRAN in_k4_b2 FIND V(B2) AT=95n
+.meas TRAN in_k4_b3 FIND V(B3) AT=95n
+.meas TRAN in_k5_b0 FIND V(B0) AT=115n
+.meas TRAN in_k5_b1 FIND V(B1) AT=115n
+.meas TRAN in_k5_b2 FIND V(B2) AT=115n
+.meas TRAN in_k5_b3 FIND V(B3) AT=115n
+.meas TRAN in_k6_b0 FIND V(B0) AT=135n
+.meas TRAN in_k6_b1 FIND V(B1) AT=135n
+.meas TRAN in_k6_b2 FIND V(B2) AT=135n
+.meas TRAN in_k6_b3 FIND V(B3) AT=135n
+.meas TRAN in_k7_b0 FIND V(B0) AT=155n
+.meas TRAN in_k7_b1 FIND V(B1) AT=155n
+.meas TRAN in_k7_b2 FIND V(B2) AT=155n
+.meas TRAN in_k7_b3 FIND V(B3) AT=155n
+.tran 0.01n 160n
+.end

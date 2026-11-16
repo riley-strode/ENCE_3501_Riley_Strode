@@ -1,0 +1,91 @@
+* muddLib07 cells (lambda = 0.3um) extracted from the schematic views.
+* Model names N_1u / P_1u = CMOSedu long-channel Level-3 models (5 V).
+* extracted from muddLib07 inv_1x{sch}: 2 FETs
+.subckt inv_1x a y vdd gnd
+Mnmos_0 y a gnd gnd N_1u W=2.10u L=0.60u
+Mpmos_0 vdd a y vdd P_1u W=3.00u L=0.60u
+.ends inv_1x
+
+* extracted from muddLib07 nand2_1x{sch}: 4 FETs
+.subckt nand2_1x a b y vdd gnd
+Mnmos_0 y b n1 gnd N_1u W=3.60u L=0.60u
+Mnmos_1 n1 a gnd gnd N_1u W=3.60u L=0.60u
+Mpmos_0 vdd b y vdd P_1u W=3.60u L=0.60u
+Mpmos_1 vdd a y vdd P_1u W=3.60u L=0.60u
+.ends nand2_1x
+
+* extracted from muddLib07 buftri_c_1x{sch}: 8 FETs
+.subckt buftri_c_1x d en y vdd gnd
+Mnmos_0 n1 n2 gnd gnd N_1u W=4.20u L=0.60u
+Mnmos_1 y en n1 gnd N_1u W=4.20u L=0.60u
+Mnmos_2 n3 en gnd gnd N_1u W=1.80u L=0.60u
+Mnmos_3 n2 d gnd gnd N_1u W=1.80u L=0.60u
+Mpmos_0 n4 n3 y vdd P_1u W=6.00u L=0.60u
+Mpmos_1 vdd n2 n4 vdd P_1u W=6.00u L=0.60u
+Mpmos_2 vdd en n3 vdd P_1u W=2.70u L=0.60u
+Mpmos_3 vdd d n2 vdd P_1u W=2.70u L=0.60u
+.ends buftri_c_1x
+
+* extracted from muddLib07 flopr_c_1x{sch}: 30 FETs
+.subckt flopr_c_1x d ph1 ph2 q resetb vdd gnd
+Mnmos_2 masterb ph2buf masterinb gnd N_1u W=1.80u L=0.60u
+Mnmos_3 master masterb gnd gnd N_1u W=1.80u L=0.60u
+Mnmos_4 slave ph1buf master gnd N_1u W=1.80u L=0.60u ; weak
+Mnmos_5 masterb ph2b n6 gnd N_1u W=1.20u L=0.60u
+Mnmos_6 n6 master gnd gnd N_1u W=1.20u L=0.60u
+Mnmos_7 n8 slaveb gnd gnd N_1u W=1.20u L=0.60u
+Mnmos_8 slaveb slave gnd gnd N_1u W=1.80u L=0.60u
+Mnmos_10 slave ph1b n8 gnd N_1u W=1.20u L=0.60u
+Mnmos_11 q slaveb gnd gnd N_1u W=2.10u L=0.60u
+Mnmos_17 n1 resetb gnd gnd N_1u W=7.20u L=0.60u
+Mnmos_19 masterinb d n1 gnd N_1u W=1.80u L=0.60u
+Mnmos_22 ph2b ph2 gnd gnd N_1u W=1.80u L=0.60u
+Mnmos_25 ph2buf ph2b gnd gnd N_1u W=1.80u L=0.60u
+Mnmos_26 ph1buf ph1b gnd gnd N_1u W=1.80u L=0.60u
+Mnmos_27 ph1b ph1 gnd gnd N_1u W=1.80u L=0.60u
+Mpmos_2 masterinb ph2b masterb vdd P_1u W=1.80u L=0.60u
+Mpmos_3 vdd masterb master vdd P_1u W=2.70u L=0.60u
+Mpmos_4 master ph1b slave vdd P_1u W=1.80u L=0.60u ; weak
+Mpmos_5 n7 ph2buf masterb vdd P_1u W=1.20u L=0.60u
+Mpmos_6 vdd master n7 vdd P_1u W=1.20u L=0.60u
+Mpmos_7 vdd slaveb n9 vdd P_1u W=1.20u L=0.60u
+Mpmos_8 vdd slave slaveb vdd P_1u W=2.70u L=0.60u
+Mpmos_10 n9 ph1buf slave vdd P_1u W=1.20u L=0.60u
+Mpmos_11 vdd slaveb q vdd P_1u W=3.00u L=0.60u
+Mpmos_16 vdd d masterinb vdd P_1u W=3.60u L=0.60u
+Mpmos_18 vdd resetb masterinb vdd P_1u W=1.80u L=0.60u
+Mpmos_21 vdd ph1 ph1b vdd P_1u W=2.70u L=0.60u
+Mpmos_22 vdd ph2 ph2b vdd P_1u W=2.70u L=0.60u
+Mpmos_24 vdd ph1b ph1buf vdd P_1u W=2.70u L=0.60u
+Mpmos_25 vdd ph2b ph2buf vdd P_1u W=2.70u L=0.60u
+.ends flopr_c_1x
+
+* ================================================================
+* INPUT REGISTER  (Logisim: 4 controlled buffers, shared EnableIn)
+*   B[i] = DataIn[i] when EnableIn=1, else Hi-Z
+* ================================================================
+.subckt InputRegister EnableIn DataIn0 DataIn1 DataIn2 DataIn3 B0 B1 B2 B3 vdd gnd
+Xb0 DataIn0 EnableIn B0 vdd gnd buftri_c_1x
+Xb1 DataIn1 EnableIn B1 vdd gnd buftri_c_1x
+Xb2 DataIn2 EnableIn B2 vdd gnd buftri_c_1x
+Xb3 DataIn3 EnableIn B3 vdd gnd buftri_c_1x
+.ends InputRegister
+
+* ================================================================
+* OUTPUT REGISTER (Logisim: 4 DFFs, clk = NAND(EnableOut,MainClock),
+*                  R = NOT MainReset)
+*   ph1 = NAND(EnableOut,MainClock)   (Logisim clock net)
+*   ph2 = NOT ph1                     (master-latch phase)
+*   resetb = MainReset                (flopr resetb is active-low, so
+*                                      Logisim's inverter is absorbed)
+* Loads on the FALLING edge of MainClock while EnableOut = 1.
+* NOTE: flopr_c_1x reset is synchronous (needs a clock edge).
+* ================================================================
+.subckt OutputRegister MainReset MainClock EnableOut IB0 IB1 IB2 IB3 rOut0 rOut1 rOut2 rOut3 vdd gnd
+Xck EnableOut MainClock ph1 vdd gnd nand2_1x
+Xph ph1 ph2 vdd gnd inv_1x
+Xf0 IB0 ph1 ph2 rOut0 MainReset vdd gnd flopr_c_1x
+Xf1 IB1 ph1 ph2 rOut1 MainReset vdd gnd flopr_c_1x
+Xf2 IB2 ph1 ph2 rOut2 MainReset vdd gnd flopr_c_1x
+Xf3 IB3 ph1 ph2 rOut3 MainReset vdd gnd flopr_c_1x
+.ends OutputRegister
